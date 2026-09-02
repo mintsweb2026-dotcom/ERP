@@ -2,7 +2,6 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import Image from "next/image";
 
 export default function FinalCTA() {
   const ref = useRef<HTMLDivElement>(null);
@@ -16,28 +15,11 @@ export default function FinalCTA() {
           <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#687838]/25 rounded-full blur-[100px] pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#869F53]/15 rounded-full blur-[100px] pointer-events-none" />
 
-          <div className="relative z-10 max-w-3xl mx-auto">
-            {/* Official Mints ERP Website Banner */}
-            <motion.div
-              initial={{ opacity: 0, y: 15, scale: 0.98 }}
-              animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-              transition={{ duration: 0.6 }}
-              className="max-w-xl mx-auto mb-8 rounded-3xl overflow-hidden border border-[#353E20] shadow-2xl shadow-black/40 group bg-[#182012]"
-            >
-              <Image
-                src="/images/mints_erp_banner.png"
-                alt="Mints ERP — Smarter Operations. Together."
-                width={800}
-                height={400}
-                className="w-full h-auto object-cover group-hover:scale-102 transition-transform duration-500"
-                priority
-              />
-            </motion.div>
-
+          <div className="relative z-10 max-w-2xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.1 }}
+              transition={{ duration: 0.5 }}
               className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#353E20] border border-[#515E2C] text-xs font-semibold text-[#C3D2A3] mb-5 sm:mb-6"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-[#A5BD79]" />
