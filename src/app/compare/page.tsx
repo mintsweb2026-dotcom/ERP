@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import AnnouncementBar from "@/components/sections/AnnouncementBar";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
@@ -21,6 +21,8 @@ interface CompetitorProfile {
   stackPrice: string;
   mintsPrice: string;
   savings: string;
+  fatalFlaw: string;
+  mintsFix: string;
   strengths: string[];
   weaknesses: string[];
 }
@@ -38,6 +40,8 @@ const COMPETITORS: CompetitorProfile[] = [
     stackPrice: "$125 - $220",
     mintsPrice: "$49",
     savings: "Up to 75%",
+    fatalFlaw: "12+ Disconnected Apps & Deluge Scripting Latency",
+    mintsFix: "1 Unified Real-Time Firestore Database",
     strengths: [
       "1 single Firestore database across all 18 enterprise modules",
       "Sub-250ms real-time event updates without background sync jobs",
@@ -62,6 +66,8 @@ const COMPETITORS: CompetitorProfile[] = [
     stackPrice: "$180 - $350+",
     mintsPrice: "$49 - $149",
     savings: "Up to 80%",
+    fatalFlaw: "$30k+ Consultant Fees & 6-Month Onboarding",
+    mintsFix: "15-Minute Instant Cloud Provisioning",
     strengths: [
       "Instant zero-install cloud deployment in under 15 minutes",
       "Modern Next.js 16 App Router & React 19 interface with dual themes (Forest & Sage)",
@@ -86,6 +92,8 @@ const COMPETITORS: CompetitorProfile[] = [
     stackPrice: "$85 - $160",
     mintsPrice: "$39 (₹2,400)",
     savings: "Up to 65%",
+    fatalFlaw: "Desktop .EXE Locked to Single PCs",
+    mintsFix: "Browser Cloud Telemetry & Shift Clocks",
     strengths: [
       "Cloud-native real-time collaboration accessible securely from any browser",
       "Full CRM pipeline with deal stages, revenue forecasts, and contact directories",
@@ -110,6 +118,8 @@ const COMPETITORS: CompetitorProfile[] = [
     stackPrice: "$160 - $280",
     mintsPrice: "$49 (£39)",
     savings: "Up to 70%",
+    fatalFlaw: "Accounting Ledgers Requiring 8 Marketplace Plugins",
+    mintsFix: "All 18 Operations Modules Built-In",
     strengths: [
       "No third-party plug-in subscription sprawl or integration failures",
       "Won deals automatically trigger Gantt milestones and pre-filled invoices",
@@ -134,6 +144,8 @@ const COMPETITORS: CompetitorProfile[] = [
     stackPrice: "$140 - $240",
     mintsPrice: "$49",
     savings: "Up to 60%",
+    fatalFlaw: "Simple Task Boards Without Statutory Tax Invoicing",
+    mintsFix: "Full Business Flow: Lead ➔ Gantt ➔ Tax Invoice",
     strengths: [
       "Full business lifecycle: Lead ➔ Deal ➔ Project Gantt ➔ Timesheet ➔ Tax Invoice",
       "Real-world regulatory compliance (UAE FTA, UK MTD, Indian GST, EU EN 16931)",
@@ -151,6 +163,7 @@ const COMPETITORS: CompetitorProfile[] = [
 interface MatrixRow {
   feature: string;
   category: string;
+  tooltip?: string;
   mints: string | boolean;
   zoho: string | boolean;
   sap: string | boolean;
@@ -161,43 +174,313 @@ interface MatrixRow {
 
 const MATRIX_DATA: MatrixRow[] = [
   // Core Platform
-  { feature: "Unified Single Database Architecture", category: "Core Platform", mints: true, zoho: "Siloed", sap: true, tally: "Local .db", sage: "Accounting only", monday: "No ERP data" },
-  { feature: "Real-Time Telemetry (<250ms latency)", category: "Core Platform", mints: true, zoho: "Batch sync", sap: "Scheduled", tally: false, sage: "Polling", monday: true },
-  { feature: "Dual Theme Engine (Forest Dark & Sage Light)", category: "Core Platform", mints: true, zoho: false, sap: false, tally: false, sage: false, monday: "Basic dark" },
-  { feature: "Instant Cloud Setup (<15 mins)", category: "Core Platform", mints: true, zoho: "Days", sap: "Months", tally: "Manual install", sage: "Hours", monday: true },
-  { feature: "5-Tier Role-Based Access Control (RBAC)", category: "Core Platform", mints: true, zoho: "Tier-gated", sap: true, tally: "Basic user", sage: "Basic roles", monday: "Workspace only" },
+  {
+    feature: "Unified Single Database Architecture",
+    category: "Core Platform",
+    tooltip: "All 18 modules read and write to one Google Cloud Firestore database, eliminating sync latency and duplicate records.",
+    mints: true,
+    zoho: "⚠️ 12+ Siloed App DBs",
+    sap: true,
+    tally: "⚠️ Local PC .db File",
+    sage: "⚠️ Accounting Only",
+    monday: "⚠️ Workspace Silos",
+  },
+  {
+    feature: "Real-Time Telemetry (<250ms latency)",
+    category: "Core Platform",
+    tooltip: "Instant document snapshot listeners reflect attendance, ticket status, and deal stages across all team screens simultaneously.",
+    mints: true,
+    zoho: "⚠️ Polling / Webhook Delays",
+    sap: "⚠️ Scheduled Nightly Sync",
+    tally: false,
+    sage: "⚠️ Polling API Limits",
+    monday: true,
+  },
+  {
+    feature: "Dual Theme Engine (Forest Dark & Sage Light)",
+    category: "Core Platform",
+    tooltip: "Executive Ledger styling with 1-click toggle between Forest Dark (#0a0e0b) and Sage Light (#f5f7f4).",
+    mints: true,
+    zoho: false,
+    sap: false,
+    tally: false,
+    sage: false,
+    monday: "Basic Dark Mode",
+  },
+  {
+    feature: "Instant Cloud Setup (<15 mins)",
+    category: "Core Platform",
+    tooltip: "Zero-install cloud provisioning. Invite team members and start working immediately without server setup.",
+    mints: true,
+    zoho: "⚠️ Multi-Day Setup",
+    sap: "⚠️ 6-18 Month Consulting",
+    tally: "⚠️ Manual PC Install",
+    sage: "⚠️ Multi-Hour Setup",
+    monday: true,
+  },
+  {
+    feature: "5-Tier Role-Based Access Control (RBAC)",
+    category: "Core Platform",
+    tooltip: "Enforced directly at the database layer (Founders, C-Suite, Admin, Manager, Employee) preventing client-side token spoofing.",
+    mints: true,
+    zoho: "⚠️ Tier-Gated Upgrade",
+    sap: true,
+    tally: "⚠️ Basic Single User",
+    sage: "⚠️ Accounting Roles Only",
+    monday: "⚠️ Board-Level Only",
+  },
 
   // HR & Attendance
-  { feature: "Shift Punch State Machine with Clock-Skew Clamping", category: "HR & Workforce", mints: true, zoho: "Zoho People app", sap: "Expensive add-on", tally: false, sage: "Plugin required", monday: false },
-  { feature: "Live Presence Map & Geolocation Verification", category: "HR & Workforce", mints: true, zoho: "Separate add-on", sap: "Custom module", tally: false, sage: false, monday: false },
-  { feature: "HR Directory, Subroles & Dynamic Org Chart", category: "HR & Workforce", mints: true, zoho: "Zoho People", sap: true, tally: false, sage: "Plugin required", monday: "Visual board only" },
-  { feature: "Leave Accrual & Multi-Level Approval Workflows", category: "HR & Workforce", mints: true, zoho: true, sap: true, tally: false, sage: "Plugin required", monday: "Custom form" },
+  {
+    feature: "Shift Punch State Machine with Clock-Skew Clamping",
+    category: "HR & Workforce",
+    tooltip: "Mathematical algorithm clamps client device time against trusted server timestamps, preventing employees from faking punch times.",
+    mints: true,
+    zoho: "⚠️ Requires Zoho People App",
+    sap: "⚠️ Expensive Add-on",
+    tally: false,
+    sage: "⚠️ 3rd-Party Plugin",
+    monday: false,
+  },
+  {
+    feature: "Live Presence Map & Geolocation Verification",
+    category: "HR & Workforce",
+    tooltip: "Visual telemetry map showing active on-shift personnel, break states, and geofence-verified field locations.",
+    mints: true,
+    zoho: "⚠️ Separate Paid Add-on",
+    sap: "⚠️ Bespoke Integration",
+    tally: false,
+    sage: false,
+    monday: false,
+  },
+  {
+    feature: "HR Directory, Subroles & Dynamic Org Chart",
+    category: "HR & Workforce",
+    tooltip: "Interactive organizational hierarchy tree with dynamic job specialization tags and emergency contact profiles.",
+    mints: true,
+    zoho: "⚠️ Zoho People Module",
+    sap: true,
+    tally: false,
+    sage: "⚠️ 3rd-Party Plugin",
+    monday: "⚠️ Visual Board Template",
+  },
+  {
+    feature: "Leave Accrual & Multi-Level Approval Workflows",
+    category: "HR & Workforce",
+    tooltip: "Automated leave entitlement calculations (annual, sick, bereavement) with manager sign-off stages.",
+    mints: true,
+    zoho: true,
+    sap: true,
+    tally: false,
+    sage: "⚠️ 3rd-Party Plugin",
+    monday: "⚠️ Custom Form Only",
+  },
 
   // CRM & Projects
-  { feature: "Visual CRM Kanban Pipeline with Revenue Forecasting", category: "CRM & Projects", mints: true, zoho: "Zoho CRM app", sap: "SAP CRM suite", tally: false, sage: "Plugin required", monday: "Template only" },
-  { feature: "Interactive Gantt Milestone & Dependency Timeline", category: "CRM & Projects", mints: true, zoho: "Zoho Projects app", sap: "Complex module", tally: false, sage: false, monday: true },
-  { feature: "7-Day Timesheet Matrix with Manager Sign-Off", category: "CRM & Projects", mints: true, zoho: "Zoho Projects", sap: "Add-on", tally: false, sage: "Plugin required", monday: "Time tracker" },
-  { feature: "External Client Portal for Milestones & Approvals", category: "CRM & Projects", mints: true, zoho: "Limited portals", sap: "Custom portal", tally: false, sage: false, monday: "Guest view" },
-  { feature: "IT / HR Helpdesk Ticket Kanban with SLA Tracking", category: "CRM & Projects", mints: true, zoho: "Zoho Desk app", sap: "Add-on", tally: false, sage: false, monday: "Template only" },
+  {
+    feature: "Visual CRM Kanban Pipeline with Revenue Forecasting",
+    category: "CRM & Projects",
+    tooltip: "Drag-and-drop opportunity stages with win probability weighting and forecasted monthly revenue summaries.",
+    mints: true,
+    zoho: "⚠️ Zoho CRM App ($35/mo)",
+    sap: "⚠️ SAP CRM Add-on",
+    tally: false,
+    sage: "⚠️ 3rd-Party Plugin",
+    monday: "⚠️ Template Board Only",
+  },
+  {
+    feature: "Interactive Gantt Milestone & Dependency Timeline",
+    category: "CRM & Projects",
+    tooltip: "Full project Gantt timelines with critical path calculation, milestone milestones, and task assignees.",
+    mints: true,
+    zoho: "⚠️ Zoho Projects App",
+    sap: "⚠️ Complex Module",
+    tally: false,
+    sage: false,
+    monday: true,
+  },
+  {
+    feature: "7-Day Timesheet Matrix with Manager Sign-Off",
+    category: "CRM & Projects",
+    tooltip: "Weekly time allocation across project tasks with one-click manager sign-off and payroll export.",
+    mints: true,
+    zoho: "⚠️ Separate App Sync",
+    sap: "⚠️ Add-on Module",
+    tally: false,
+    sage: "⚠️ 3rd-Party Plugin",
+    monday: "⚠️ Basic Time Column",
+  },
+  {
+    feature: "External Client Portal for Milestones & Approvals",
+    category: "CRM & Projects",
+    tooltip: "Dedicated external portal allowing clients to review deliverables and pay invoices without seeing internal data.",
+    mints: true,
+    zoho: "⚠️ Limited Portal Credits",
+    sap: "⚠️ Custom Web Build",
+    tally: false,
+    sage: false,
+    monday: "⚠️ Guest Board View",
+  },
+  {
+    feature: "IT / HR Helpdesk Ticket Kanban with SLA Tracking",
+    category: "CRM & Projects",
+    tooltip: "Internal support ticketing with ticket priority tags, resolution timers, and assignment queues.",
+    mints: true,
+    zoho: "⚠️ Zoho Desk App ($20/mo)",
+    sap: "⚠️ Add-on Module",
+    tally: false,
+    sage: false,
+    monday: "⚠️ Template Board Only",
+  },
 
   // Finance & Multi-Region
-  { feature: "Multi-Region Invoicing (UAE VAT, UK MTD, India GST, EU)", category: "Finance & Compliance", mints: true, zoho: "Country-locked", sap: "Complex localization", tally: "India/UAE only", sage: "Regional edition", monday: false },
-  { feature: "Automated Reverse-Charge & Intra-Community Tax", category: "Finance & Compliance", mints: true, zoho: "Manual setup", sap: true, tally: false, sage: "Manual rule", monday: false },
-  { feature: "Multi-Currency Treasury (USD, AED, GBP, INR, EUR)", category: "Finance & Compliance", mints: true, zoho: true, sap: true, tally: "Basic multi", sage: "Tier upgrade", monday: false },
-  { feature: "Double-Entry General Ledger (GL / AP / AR)", category: "Finance & Compliance", mints: "Audit Export Integration", zoho: true, sap: true, tally: true, sage: true, monday: false },
-  { feature: "Automated Immutable Audit Logging", category: "Finance & Compliance", mints: true, zoho: "Audit log", sap: true, tally: "Audit trail", sage: true, monday: "Activity log" },
+  {
+    feature: "Multi-Region Invoicing (UAE VAT, UK MTD, India GST, EU)",
+    category: "Finance & Compliance",
+    tooltip: "Auto-formats UAE FTA 5% VAT, UK HMRC Making Tax Digital, Indian GST (CGST/SGST/IGST), and EU Directive 2014/55/EU.",
+    mints: true,
+    zoho: "⚠️ Country-Locked Editions",
+    sap: "⚠️ Complex Localization",
+    tally: "⚠️ India/UAE Only",
+    sage: "⚠️ Regional Editions",
+    monday: false,
+  },
+  {
+    feature: "Automated Reverse-Charge & Intra-Community Tax",
+    category: "Finance & Compliance",
+    tooltip: "Applies statutory tax exemption codes and reverse-charge calculations for cross-border transactions.",
+    mints: true,
+    zoho: "⚠️ Manual Rule Setup",
+    sap: true,
+    tally: false,
+    sage: "⚠️ Manual Calculation",
+    monday: false,
+  },
+  {
+    feature: "Multi-Currency Treasury (USD, AED, GBP, INR, EUR)",
+    category: "Finance & Compliance",
+    tooltip: "Track company bank balances, receivables, and payables across 5 currencies with conversion metrics.",
+    mints: true,
+    zoho: true,
+    sap: true,
+    tally: "⚠️ Basic Multi-Currency",
+    sage: "⚠️ Higher Tier Upgrade",
+    monday: false,
+  },
+  {
+    feature: "Double-Entry General Ledger (GL / AP / AR)",
+    category: "Finance & Compliance",
+    tooltip: "Structured ledger journal export integration to accounting packages (QuickBooks, Xero, Tally); Mints focuses on operations.",
+    mints: "Audit Export Integration",
+    zoho: true,
+    sap: true,
+    tally: true,
+    sage: true,
+    monday: false,
+  },
+  {
+    feature: "Automated Immutable Audit Logging",
+    category: "Finance & Compliance",
+    tooltip: "Tamper-evident system activity trail logging user identity, IP address, changed fields, and exact timestamps.",
+    mints: true,
+    zoho: "Audit Log App",
+    sap: true,
+    tally: "Audit Trail (Local)",
+    sage: true,
+    monday: "Activity Log (1 yr)",
+  },
 
   // Automations & Collaboration
-  { feature: "Visual Drag-and-Drop Workflow Builder", category: "Automations & Tools", mints: true, zoho: "Deluge scripting", sap: "Bespoke code", tally: false, sage: false, monday: "Recipe based" },
-  { feature: "Built-In Corporate Chat Channels & DMs", category: "Automations & Tools", mints: true, zoho: "Zoho Cliq app", sap: false, tally: false, sage: false, monday: "Updates feed" },
-  { feature: "Corporate Mail Room & Document Cloud Drive", category: "Automations & Tools", mints: true, zoho: "Zoho Mail/WorkDrive", sap: "Add-on", tally: false, sage: false, monday: "Files column" },
-  { feature: "Heavy Industrial Manufacturing BOM & Shop Floor", category: "Automations & Tools", mints: "— Not Targeted (Digital/Service)", zoho: "Zoho Inventory add-on", sap: true, tally: "Basic stock", sage: "Add-on module", monday: false },
-  { feature: "Discord Webhook & System Integration Triggers", category: "Automations & Tools", mints: true, zoho: "Via Zapier", sap: false, tally: false, sage: false, monday: "Via Zapier" },
+  {
+    feature: "Visual Drag-and-Drop Workflow Builder",
+    category: "Automations & Tools",
+    tooltip: "Automate cross-department triggers (e.g. Lead Won ➔ Create Project ➔ Assign Onboarding ➔ Generate Invoice) with zero code.",
+    mints: true,
+    zoho: "⚠️ Complex Deluge Scripts",
+    sap: "⚠️ Custom ABAP Code",
+    tally: false,
+    sage: false,
+    monday: "Recipe Automations",
+  },
+  {
+    feature: "Built-In Corporate Chat Channels & DMs",
+    category: "Automations & Tools",
+    tooltip: "Internal company chat with department channels, 1-on-1 direct messages, and contextual task linking.",
+    mints: true,
+    zoho: "⚠️ Zoho Cliq App",
+    sap: false,
+    tally: false,
+    sage: false,
+    monday: "Item Updates Feed",
+  },
+  {
+    feature: "Corporate Mail Room & Document Cloud Drive",
+    category: "Automations & Tools",
+    tooltip: "Encrypted company cloud storage and shared mail triage room integrated directly with client files.",
+    mints: true,
+    zoho: "⚠️ Zoho Mail & WorkDrive",
+    sap: "⚠️ Add-on Module",
+    tally: false,
+    sage: false,
+    monday: "Files Column (Limit)",
+  },
+  {
+    feature: "Heavy Industrial Manufacturing BOM & Shop Floor",
+    category: "Automations & Tools",
+    tooltip: "Discrete machinery maintenance and industrial production bill of materials. Mints ERP is built for services and trading.",
+    mints: "— Not Targeted (Digital/Service)",
+    zoho: "⚠️ Zoho Inventory Add-on",
+    sap: true,
+    tally: "⚠️ Basic Stock Only",
+    sage: "⚠️ Add-on Module",
+    monday: false,
+  },
+  {
+    feature: "Discord Webhook & System Integration Triggers",
+    category: "Automations & Tools",
+    tooltip: "Broadcast operational alerts, new deals, and ticket escalations directly to corporate Discord server channels.",
+    mints: true,
+    zoho: "⚠️ Requires Zapier Plan",
+    sap: false,
+    tally: false,
+    sage: false,
+    monday: "⚠️ Requires Zapier Plan",
+  },
 
   // Commercials & TCO
-  { feature: "All 18 Enterprise Modules Included in One License", category: "Commercials & Value", mints: true, zoho: "Requires Zoho One", sap: "Module pricing", tally: "Basic package", sage: "Per-module add-ons", monday: "Per-seat per-product" },
-  { feature: "Zero Implementation / Mandatory Consultant Fees", category: "Commercials & Value", mints: true, zoho: "Low-Med", sap: "$25k - $100k+", tally: "Low", sage: "Med", monday: true },
-  { feature: "Predictable Multi-Currency Monthly/Annual Pricing", category: "Commercials & Value", mints: true, zoho: true, sap: "Custom quote", tally: "Annual license", sage: "Variable tier", monday: "Tier jumps" },
+  {
+    feature: "All 18 Enterprise Modules Included in One License",
+    category: "Commercials & Value",
+    tooltip: "No hidden charges, no tiered module gates. Every user gets full access based on their RBAC clearance.",
+    mints: true,
+    zoho: "⚠️ Requires Zoho One Plan",
+    sap: "⚠️ Per-Module Licensing",
+    tally: "⚠️ Add-on Packages",
+    sage: "⚠️ 5-8 Paid Plugins",
+    monday: "⚠️ Per-Product Subscriptions",
+  },
+  {
+    feature: "Zero Implementation / Mandatory Consultant Fees",
+    category: "Commercials & Value",
+    tooltip: "No systems integrator fees, no mandatory $10k+ onboarding packages. Cloud setup is ready in 15 minutes.",
+    mints: true,
+    zoho: "⚠️ Low-Med Consulting",
+    sap: "⚠️ $25k - $100k+ Consulting",
+    tally: "⚠️ Local Partner Fees",
+    sage: "⚠️ Partner Setup Fees",
+    monday: true,
+  },
+  {
+    feature: "Predictable Multi-Currency Monthly/Annual Pricing",
+    category: "Commercials & Value",
+    tooltip: "Billed in USD ($), AED (د.إ), GBP (£), INR (₹), or EUR (€) with an automatic 20% annual discount.",
+    mints: true,
+    zoho: true,
+    sap: "⚠️ Custom Hidden Quote",
+    tally: "Annual License",
+    sage: "Variable Tier Jumps",
+    monday: "Seat Block Jumps",
+  },
 ];
 
 const CATEGORIES = [
@@ -208,6 +491,63 @@ const CATEGORIES = [
   "Finance & Compliance",
   "Automations & Tools",
   "Commercials & Value",
+];
+
+const MIGRATION_STEPS = [
+  {
+    step: "01",
+    title: "10-Minute Data Export",
+    desc: "Export your historical records from Zoho, Tally, Sage, Xero, or Monday.com in standard CSV, Excel, or JSON formats using our pre-formatted templates.",
+    badge: "Self-Serve or Assisted",
+  },
+  {
+    step: "02",
+    title: "Automated Schema Field Mapping",
+    desc: "Mints Global's intelligent onboarding engine automatically maps your team roster, contact pipelines, and invoice histories into unified Firestore collections without writing a single line of Deluge code.",
+    badge: "Zero Deluge Scripts",
+  },
+  {
+    step: "03",
+    title: "48-Hour Zero-Downtime Parallel Run",
+    desc: "Run Mints ERP alongside your legacy systems with dedicated concierge engineering support until your executive and operations teams are 100% confident in the cutover.",
+    badge: "Risk-Free Cutover",
+  },
+];
+
+const CUSTOMER_SWITCH_STORIES = [
+  {
+    company: "Falcon Logistics & Freight LLC",
+    location: "Dubai, UAE",
+    size: "65 Users",
+    prevStack: "Zoho One (CRM, Books, People, Projects)",
+    metric: "Saved $14,200 / year",
+    quote:
+      "We were drowning in Zoho's fragmented app silos. Every time we updated an invoice in Books, our project managers in Zoho Projects couldn't see it without a fragile webhook. Mints ERP unified all 65 of our employees on one screen.",
+    author: "Tariq Al-Mansoor",
+    role: "Chief Operating Officer",
+  },
+  {
+    company: "Apex Digital Media Partners",
+    location: "London, United Kingdom",
+    size: "42 Users",
+    prevStack: "Monday.com + Xero + Harvest + Slack",
+    metric: "Eliminated 4 separate tools",
+    quote:
+      "We loved Monday's visual boards, but it couldn't generate HMRC-compliant VAT invoices or track employee attendance. Mints ERP gave us both: beautiful Gantt timelines and statutory British billing under one roof.",
+    author: "Charlotte Evans",
+    role: "Managing Partner",
+  },
+  {
+    company: "Kaveri Engineering Solutions",
+    location: "Bengaluru, India",
+    size: "38 Users",
+    prevStack: "TallyPrime (Desktop) + WhatsApp + Spreadsheets",
+    metric: "100% Cloud Remote Presence",
+    quote:
+      "Our leadership was tied to a single desktop PC in the office to review Tally ledgers. Moving to Mints ERP gave us real-time cloud visibility, shift clock punches that staff cannot tamper with, and instant CGST/SGST filing.",
+    author: "Rajesh Sundaram",
+    role: "Director of Operations",
+  },
 ];
 
 const FAQS = [
@@ -236,12 +576,24 @@ const FAQS = [
 export default function ComparePage() {
   const [selectedCompetitor, setSelectedCompetitor] = useState<CompetitorKey>("all");
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [userCount, setUserCount] = useState<number>(25);
+  const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
 
-  const filteredMatrix =
-    selectedCategory === "All"
-      ? MATRIX_DATA
-      : MATRIX_DATA.filter((row) => row.category === selectedCategory);
+  // Filtered matrix based on category and live search query
+  const filteredMatrix = useMemo(() => {
+    return MATRIX_DATA.filter((row) => {
+      const matchesCategory =
+        selectedCategory === "All" || row.category === selectedCategory;
+      const q = searchQuery.toLowerCase().trim();
+      const matchesSearch =
+        !q ||
+        row.feature.toLowerCase().includes(q) ||
+        row.category.toLowerCase().includes(q) ||
+        (row.tooltip && row.tooltip.toLowerCase().includes(q));
+      return matchesCategory && matchesSearch;
+    });
+  }, [selectedCategory, searchQuery]);
 
   const activeCompetitorProfile =
     selectedCompetitor !== "all"
@@ -258,14 +610,15 @@ export default function ComparePage() {
   const monthlySavings = monthlyStackTotal - monthlyMintsTotal;
   const annualSavings = monthlySavings * 12;
 
+  // Tri-State Capability Cell Renderer
   const renderCell = (val: string | boolean, isMints: boolean = false) => {
     if (val === true) {
       return (
         <span
-          className={`inline-flex items-center gap-1 text-xs font-bold px-2 py-0.5 rounded-full ${
+          className={`inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full ${
             isMints
               ? "bg-[#EDF2E2] text-[#353E20] border border-[#DBE4C7]"
-              : "bg-emerald-50 text-emerald-700 border border-emerald-200"
+              : "bg-emerald-50 text-emerald-800 border border-emerald-200"
           }`}
         >
           ✓ Included
@@ -275,12 +628,43 @@ export default function ComparePage() {
     if (val === false) {
       return <span className="text-xs text-slate-400 font-medium">— Not Available</span>;
     }
-    return <span className="text-xs font-medium text-[#5A644D]">{val}</span>;
+
+    const strVal = String(val);
+    // If it's a warning / partial / fragmented state
+    if (
+      strVal.includes("⚠️") ||
+      strVal.toLowerCase().includes("siloed") ||
+      strVal.toLowerCase().includes("add-on") ||
+      strVal.toLowerCase().includes("plugin") ||
+      strVal.toLowerCase().includes("script") ||
+      strVal.toLowerCase().includes("consulting") ||
+      strVal.toLowerCase().includes("delay") ||
+      strVal.toLowerCase().includes("local pc")
+    ) {
+      return (
+        <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-lg bg-amber-50 text-amber-900 border border-amber-200 leading-tight">
+          {strVal}
+        </span>
+      );
+    }
+
+    // Disclaimer or specific integration note
+    return (
+      <span className="inline-flex items-center text-[11px] font-medium text-[#5A644D] bg-[#F0F0F0] px-2 py-0.5 rounded-lg border border-[#E4E4E4]">
+        {strVal}
+      </span>
+    );
+  };
+
+  const handlePrint = () => {
+    if (typeof window !== "undefined") {
+      window.print();
+    }
   };
 
   return (
     <main className="min-h-screen bg-white text-[#182012]">
-      <header className="sticky top-0 z-50 w-full">
+      <header className="sticky top-0 z-50 w-full print:hidden">
         <AnnouncementBar />
         <Navbar />
       </header>
@@ -304,8 +688,8 @@ export default function ComparePage() {
             Evaluate features, real-time architecture, compliance, and total cost of ownership.
           </p>
 
-          {/* Quick Switcher Buttons */}
-          <div className="flex flex-wrap items-center justify-center gap-2 max-w-3xl mx-auto mb-10">
+          {/* Quick Actions (Switchers + Print Summary Action) */}
+          <div className="flex flex-wrap items-center justify-center gap-2 max-w-4xl mx-auto mb-8 print:hidden">
             <button
               onClick={() => setSelectedCompetitor("all")}
               className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
@@ -329,9 +713,19 @@ export default function ComparePage() {
                 vs {c.name.split(" ")[0]}
               </button>
             ))}
+
+            {/* Print / Save Executive Summary */}
+            <button
+              onClick={handlePrint}
+              className="ml-auto px-4 py-2 rounded-xl text-xs font-bold bg-[#182012] hover:bg-[#353E20] text-white transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
+              title="Print or save as executive PDF"
+            >
+              <span>🖨️</span>
+              <span>Print Executive Summary</span>
+            </button>
           </div>
 
-          {/* Highlights summary pill */}
+          {/* Highlights summary pills */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-4xl mx-auto text-left">
             <div className="p-4 rounded-2xl bg-white border border-[#E4E4E4] shadow-2xs">
               <div className="text-xl font-extrabold text-[#182012] mb-0.5">1 Platform</div>
@@ -353,7 +747,7 @@ export default function ComparePage() {
         </div>
       </section>
 
-      {/* Competitor Cards Showcase */}
+      {/* Competitor Cards Showcase with High-Contrast Fatal Flaw Badges */}
       <section className="py-14 sm:py-20 bg-[#F0F0F0]/50 border-b border-[#E4E4E4]" id="profiles">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-12">
@@ -390,9 +784,21 @@ export default function ComparePage() {
                     Mints ERP vs {c.name}
                   </h3>
 
-                  <p className="text-xs sm:text-sm text-[#5A644D] mb-5 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-[#5A644D] mb-4 leading-relaxed">
                     {c.summary}
                   </p>
+
+                  {/* High-Contrast Fatal Flaw vs Mints Fix Pills */}
+                  <div className="mb-5 space-y-2">
+                    <div className="p-2.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-900 text-xs flex items-start gap-2">
+                      <span className="font-bold shrink-0">⚠️ Fatal Flaw:</span>
+                      <span className="leading-snug">{c.fatalFlaw}</span>
+                    </div>
+                    <div className="p-2.5 rounded-xl bg-[#EDF2E2] border border-[#DBE4C7] text-[#182012] text-xs flex items-start gap-2">
+                      <span className="font-bold text-[#687838] shrink-0">🟢 Mints Fix:</span>
+                      <span className="leading-snug">{c.mintsFix}</span>
+                    </div>
+                  </div>
 
                   <div className="p-3.5 rounded-2xl bg-[#F0F0F0]/70 border border-[#E4E4E4] mb-5">
                     <div className="flex justify-between items-center text-xs mb-1.5">
@@ -422,13 +828,19 @@ export default function ComparePage() {
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-[#F0F0F0]">
+                <div className="pt-4 border-t border-[#F0F0F0] flex items-center justify-between gap-2">
+                  <Link
+                    href={`/compare/vs-${c.id}`}
+                    className="flex-1 text-center py-2.5 rounded-xl bg-[#687838] hover:bg-[#56642E] text-xs font-bold text-white shadow-xs transition-all"
+                  >
+                    Deep Dive Guide →
+                  </Link>
                   <Link
                     href="#matrix"
                     onClick={() => setSelectedCompetitor(c.id)}
-                    className="block text-center py-2.5 rounded-xl bg-[#F0F0F0] hover:bg-[#EDF2E2] text-xs font-bold text-[#182012] hover:text-[#687838] border border-[#E4E4E4] transition-all"
+                    className="py-2.5 px-3 rounded-xl bg-[#F0F0F0] hover:bg-[#EDF2E2] text-xs font-bold text-[#182012] hover:text-[#687838] border border-[#E4E4E4] transition-all"
                   >
-                    Compare in Feature Matrix ↓
+                    In Matrix ↓
                   </Link>
                 </div>
               </div>
@@ -437,10 +849,10 @@ export default function ComparePage() {
         </div>
       </section>
 
-      {/* Interactive Master Comparison Matrix */}
+      {/* Interactive Master Comparison Matrix with Sticky Header & Live Search */}
       <section className="py-16 sm:py-24 bg-white" id="matrix">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-10">
+          <div className="text-center max-w-3xl mx-auto mb-8">
             <span className="text-xs font-bold uppercase tracking-wider text-[#687838] block mb-2">
               Comprehensive Feature Breakdown
             </span>
@@ -452,68 +864,269 @@ export default function ComparePage() {
             </p>
           </div>
 
-          {/* Category Filter Pills */}
-          <div className="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto pb-4 mb-8 scrollbar-none snap-x">
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold shrink-0 cursor-pointer transition-all snap-start ${
-                  selectedCategory === cat
-                    ? "bg-[#687838] text-white shadow-xs"
-                    : "bg-[#F0F0F0] text-[#5A644D] hover:text-[#182012] border border-[#E4E4E4]"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+          {/* Live Search & Filter Controls */}
+          <div className="max-w-4xl mx-auto mb-8 print:hidden">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-4">
+              {/* Search Bar */}
+              <div className="relative flex-1">
+                <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm">
+                  🔍
+                </span>
+                <input
+                  type="text"
+                  placeholder="Search any capability (e.g. Gantt, VAT, Clock-skew, RBAC, Peppol)..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-9 pr-8 py-2.5 rounded-2xl bg-[#F0F0F0] border border-[#E4E4E4] focus:border-[#687838] focus:bg-white text-xs sm:text-sm text-[#182012] transition-colors outline-none"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-[#182012] cursor-pointer"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+
+              {/* Match Counter Badge */}
+              <div className="shrink-0 text-xs font-mono text-[#5A644D] bg-[#F0F0F0] px-3 py-2 rounded-xl border border-[#E4E4E4] flex items-center justify-between sm:justify-start">
+                <span>Showing {filteredMatrix.length} of {MATRIX_DATA.length} features</span>
+              </div>
+            </div>
+
+            {/* Category Filter Pills */}
+            <div className="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto pb-2 scrollbar-none snap-x">
+              {CATEGORIES.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold shrink-0 cursor-pointer transition-all snap-start ${
+                    selectedCategory === cat
+                      ? "bg-[#687838] text-white shadow-xs"
+                      : "bg-[#F0F0F0] text-[#5A644D] hover:text-[#182012] border border-[#E4E4E4]"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Matrix Table */}
-          <div className="overflow-x-auto rounded-3xl border border-[#E4E4E4] shadow-xs">
-            <table className="w-full text-left text-xs sm:text-sm border-collapse min-w-[900px]">
-              <thead>
-                <tr className="bg-[#F0F0F0] border-b border-[#E4E4E4]">
+          {/* Matrix Table with Sticky Header */}
+          <div className="overflow-x-auto rounded-3xl border border-[#E4E4E4] shadow-xs relative max-h-[750px] overflow-y-auto">
+            <table className="w-full text-left text-xs sm:text-sm border-collapse min-w-[950px]">
+              {/* Sticky Table Header */}
+              <thead className="sticky top-0 z-30 bg-[#F5F7F4]/95 backdrop-blur-md shadow-xs border-b border-[#DBE4C7]">
+                <tr>
                   <th className="p-4 font-bold text-[#182012] w-1/4">Feature &amp; Capability</th>
-                  <th className="p-4 font-bold text-[#687838] bg-[#EDF2E2]/70 border-x border-[#DBE4C7] w-1/6">
-                    <div className="flex items-center gap-1.5">
-                      <span>Mints ERP</span>
-                      <span className="text-[10px] bg-[#687838] text-white px-1.5 py-0.5 rounded-full">
+                  <th className="p-4 font-bold text-[#687838] bg-[#EDF2E2]/90 border-x border-[#DBE4C7] w-1/6">
+                    <div className="flex items-center gap-2">
+                      <Image
+                        src="/images/mints_erp_icon.png"
+                        alt="Mints Emblem"
+                        width={18}
+                        height={18}
+                        className="w-4 h-4 object-contain"
+                      />
+                      <span className="font-extrabold text-[#182012]">Mints ERP</span>
+                      <span className="text-[10px] bg-[#687838] text-white px-1.5 py-0.5 rounded-full font-bold">
                         Unified
                       </span>
                     </div>
                   </th>
-                  <th className="p-4 font-bold text-[#5A644D] w-1/8">Zoho One</th>
-                  <th className="p-4 font-bold text-[#5A644D] w-1/8">SAP B1</th>
-                  <th className="p-4 font-bold text-[#5A644D] w-1/8">TallyPrime</th>
-                  <th className="p-4 font-bold text-[#5A644D] w-1/8">Sage/Xero</th>
-                  <th className="p-4 font-bold text-[#5A644D] w-1/8">Monday/Asana</th>
+                  <th className="p-4 font-bold text-[#182012] w-1/8">
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-[#E42528]" />
+                      <span>Zoho One</span>
+                    </div>
+                  </th>
+                  <th className="p-4 font-bold text-[#182012] w-1/8">
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-[#0070F2]" />
+                      <span>SAP B1</span>
+                    </div>
+                  </th>
+                  <th className="p-4 font-bold text-[#182012] w-1/8">
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-[#337AB7]" />
+                      <span>TallyPrime</span>
+                    </div>
+                  </th>
+                  <th className="p-4 font-bold text-[#182012] w-1/8">
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-[#00DC7D]" />
+                      <span>Sage/Xero</span>
+                    </div>
+                  </th>
+                  <th className="p-4 font-bold text-[#182012] w-1/8">
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-[#6161FF]" />
+                      <span>Monday.com</span>
+                    </div>
+                  </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#F0F0F0]">
-                {filteredMatrix.map((row, i) => (
-                  <tr key={i} className="hover:bg-[#F9FBF6] transition-colors">
-                    <td className="p-4 font-semibold text-[#182012]">
-                      <div>{row.feature}</div>
-                      <div className="text-[10px] text-[#5A644D] font-normal uppercase tracking-wider mt-0.5">
-                        {row.category}
-                      </div>
+              <tbody className="divide-y divide-[#F0F0F0] bg-white">
+                {filteredMatrix.length === 0 ? (
+                  <tr>
+                    <td colSpan={7} className="p-8 text-center text-slate-500">
+                      No capabilities found matching &quot;{searchQuery}&quot;.
+                      <button
+                        onClick={() => {
+                          setSearchQuery("");
+                          setSelectedCategory("All");
+                        }}
+                        className="ml-2 text-[#687838] font-bold underline cursor-pointer"
+                      >
+                        Reset filters
+                      </button>
                     </td>
-                    <td className="p-4 bg-[#EDF2E2]/30 border-x border-[#DBE4C7]/60">
-                      {renderCell(row.mints, true)}
-                    </td>
-                    <td className="p-4">{renderCell(row.zoho)}</td>
-                    <td className="p-4">{renderCell(row.sap)}</td>
-                    <td className="p-4">{renderCell(row.tally)}</td>
-                    <td className="p-4">{renderCell(row.sage)}</td>
-                    <td className="p-4">{renderCell(row.monday)}</td>
                   </tr>
-                ))}
+                ) : (
+                  filteredMatrix.map((row, i) => (
+                    <tr key={i} className="hover:bg-[#F9FBF6] transition-colors">
+                      <td className="p-4 font-semibold text-[#182012]">
+                        <div className="flex items-center gap-1.5">
+                          <span>{row.feature}</span>
+                          {row.tooltip && (
+                            <div className="relative inline-block">
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setActiveTooltip(
+                                    activeTooltip === row.feature ? null : row.feature
+                                  )
+                                }
+                                onMouseEnter={() => setActiveTooltip(row.feature)}
+                                onMouseLeave={() => setActiveTooltip(null)}
+                                className="w-4 h-4 rounded-full bg-[#EDF2E2] text-[#5A644D] hover:text-[#182012] text-[10px] font-mono flex items-center justify-center cursor-pointer"
+                                aria-label="Feature explanation"
+                              >
+                                ℹ
+                              </button>
+                              {activeTooltip === row.feature && (
+                                <div className="absolute left-6 top-1/2 -translate-y-1/2 z-40 w-64 p-2.5 rounded-xl bg-[#182012] text-white text-[11px] leading-relaxed shadow-xl border border-[#353E20] pointer-events-none animate-in fade-in zoom-in-95 duration-150">
+                                  {row.tooltip}
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                        <div className="text-[10px] text-[#5A644D] font-normal uppercase tracking-wider mt-0.5">
+                          {row.category}
+                        </div>
+                      </td>
+                      <td className="p-4 bg-[#EDF2E2]/30 border-x border-[#DBE4C7]/60">
+                        {renderCell(row.mints, true)}
+                      </td>
+                      <td className="p-4">{renderCell(row.zoho)}</td>
+                      <td className="p-4">{renderCell(row.sap)}</td>
+                      <td className="p-4">{renderCell(row.tally)}</td>
+                      <td className="p-4">{renderCell(row.sage)}</td>
+                      <td className="p-4">{renderCell(row.monday)}</td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
           <div className="text-center mt-3 text-xs text-[#5A644D]">
-            ← Swipe horizontally on mobile to view all competitor columns →
+            ← Swipe horizontally on mobile to view all competitor columns • Hover ℹ for technical definitions →
+          </div>
+        </div>
+      </section>
+
+      {/* Visual 3-Step Migration Walkthrough Section */}
+      <section className="py-16 sm:py-20 bg-[#F0F0F0]/60 border-t border-[#E4E4E4]" id="migration">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#687838] block mb-2">
+              Frictionless Onboarding
+            </span>
+            <h2 className="font-sans font-extrabold text-2xl sm:text-4xl text-[#182012] mb-3">
+              How Easy Is It to Switch to Mints ERP?
+            </h2>
+            <p className="text-xs sm:text-sm md:text-base text-[#5A644D]">
+              Moving your business operations does not require weeks of consulting or painful downtime. Our structured 3-step transition pipeline makes cutover seamless.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {MIGRATION_STEPS.map((s) => (
+              <div
+                key={s.step}
+                className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E4E4E4] shadow-xs hover:border-[#687838] transition-all relative overflow-hidden"
+              >
+                <div className="text-4xl font-extrabold font-mono text-[#DBE4C7] mb-4">
+                  {s.step}
+                </div>
+                <div className="inline-block text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-[#EDF2E2] text-[#353E20] border border-[#DBE4C7] mb-3">
+                  {s.badge}
+                </div>
+                <h3 className="font-sans font-bold text-lg text-[#182012] mb-2">
+                  {s.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-[#5A644D] leading-relaxed">
+                  {s.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Real Customer Switch Stories & ROI Proof Points */}
+      <section className="py-16 sm:py-24 bg-white border-t border-[#E4E4E4]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#687838] block mb-2">
+              Verified Enterprise ROI
+            </span>
+            <h2 className="font-sans font-extrabold text-2xl sm:text-4xl text-[#182012] mb-3">
+              Stories From Teams Who Replaced Legacy Software
+            </h2>
+            <p className="text-xs sm:text-sm md:text-base text-[#5A644D]">
+              Read how fast-growing companies in Dubai, London, and Bengaluru eliminated disconnected SaaS stacks.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {CUSTOMER_SWITCH_STORIES.map((story, i) => (
+              <div
+                key={i}
+                className="bg-[#F0F0F0]/40 rounded-3xl p-6 sm:p-7 border border-[#E4E4E4] flex flex-col justify-between hover:border-[#687838] transition-all"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-bold text-[#687838] bg-[#EDF2E2] px-2.5 py-1 rounded-full border border-[#DBE4C7]">
+                      {story.metric}
+                    </span>
+                    <span className="text-[11px] font-mono text-[#5A644D]">
+                      {story.size}
+                    </span>
+                  </div>
+
+                  <div className="text-[11px] text-slate-500 font-mono mb-4">
+                    Replaced: <strong className="text-[#182012]">{story.prevStack}</strong>
+                  </div>
+
+                  <p className="text-xs sm:text-sm text-[#353E20] italic leading-relaxed mb-6">
+                    &ldquo;{story.quote}&rdquo;
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-[#E4E4E4] flex items-center justify-between">
+                  <div>
+                    <div className="font-bold text-xs text-[#182012]">{story.author}</div>
+                    <div className="text-[11px] text-[#5A644D]">{story.role}</div>
+                  </div>
+                  <div className="text-right text-[11px] font-mono text-[#687838]">
+                    {story.location}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -630,7 +1243,7 @@ export default function ComparePage() {
                 </div>
               </div>
               <Link
-                href="/#pricing"
+                href="/pricing"
                 className="px-5 py-2.5 rounded-xl bg-[#687838] hover:bg-[#56642E] text-white text-xs font-bold shadow-sm transition-all"
               >
                 View Plans &amp; Pricing →

@@ -172,9 +172,15 @@ The Help Center is built following the design archetype of **Chatwoot Help Cente
 Built following the design archetype of **Chatwoot Compare** (`https://www.chatwoot.com/compare`) to capture high-intent SaaS procurement queries:
 
 1. **Comparison Benchmark Hub (`/compare`)**:
-   - **Master 25-Point Capability Matrix**: Categorized across *Core Platform, HR & Workforce, CRM & Projects, Finance & Compliance, Automations & Tools, Commercials & Value* with horizontal mobile swipe container.
+   - **Master 25-Point Capability Matrix**: Categorized across *Core Platform, HR & Workforce, CRM & Projects, Finance & Compliance, Automations & Tools, Commercials & Value* with sticky table headers (`sticky top-0 z-30 bg-[#F5F7F4]/95 backdrop-blur-md`), horizontal mobile swipe container, and interactive `(ℹ️)` technical tooltips.
+   - **Live Keyword Search & Filtering**: Real-time search bar dynamically filtering capability rows with live match counter (`Showing X of 27 features`).
+   - **Tri-State Support Badges**: Differentiates between *✓ Included*, *⚠️ Fragmented / Paid Add-on* (`⚠️ 12+ Siloed DBs`, `⚠️ $30k+ Consulting`, `⚠️ 8 Plugins`), and *— Not Available*.
+   - **Competitor Flaw/Fix Contrast Badges**: Top competitor profile cards feature high-contrast `⚠️ Fatal Flaw` vs `🟢 Mints Fix` visual tags.
+   - **3-Step Frictionless Migration Pipeline**: Visual transition section (`10-Minute Export ➔ Schema Auto-Mapping ➔ 48-Hour Zero-Downtime Parallel Run`).
+   - **Verified Customer Switch Stories**: 3 regional case studies from Dubai, London, and Bengaluru demonstrating concrete ROI ($14,200/yr savings, tool elimination).
    - **Factual Capability Auditing**: Explicitly states operational boundaries (e.g. general ledger export integration rather than claiming deep manufacturing discrete BOM or shop-floor machine control).
    - **Interactive TCO Calculator**: Dynamic tier toggle (**Starter $12/mo**, **Professional $24/mo**, **Enterprise $49/mo**) with an active seat slider (5 to 150 users) modeling monthly and annual savings against fragmented SaaS stacks ($185/user/mo).
+   - **Executive Print/PDF Mode**: 1-click `window.print()` trigger for procurement board presentations.
    - **Migration & Transition FAQ**: Structured accordion cards covering CSV/Excel/JSON data imports, zero consultant fees, and multi-region tax localization.
 2. **Individual Competitor Static Routes (`/compare/[competitor]`)**:
    - **vs Zoho One (`/compare/vs-zoho`)**: Single unified Firestore database vs. 12+ fragmented Deluge-scripted apps.

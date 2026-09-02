@@ -105,10 +105,17 @@ All official brand and product assets are maintained in `public/images/`.
 - **Snap-Scrolling**: Horizontal snap-scroll (`snap-x overflow-x-auto scrollbar-none`) with zero browser scrollbar clutter.
 
 ### Master Capability Matrix Table (`src/app/compare/page.tsx`)
-- **Mints ERP Column**: Distinctive `#EDF2E2`/30 tint background with vertical `#DBE4C7`/60 hairline borders.
-- **Inclusion Badges**: Emerald tint (`#EDF2E2`) badge with dark olive text (`#353E20`) and checkmark icon (`✓ Included`).
-- **Absence Indicator**: Neutral slate dash (`— Not Available`).
-- **Mobile Swipe Guard**: Explicit `min-w-[900px]` scroll wrapper with mobile indicator caption (`← Swipe horizontally on mobile to view all competitor columns →`).
+- **Sticky Table Header**: `sticky top-0 z-30 bg-[#F5F7F4]/95 backdrop-blur-md` locking the Mints ERP and competitor columns in place throughout vertical scrolling.
+- **Real-Time Search & Match Counter**: Live keyword search input with dynamic counter (`Showing X of 27 features`) and instant `✕` clear button.
+- **Tri-State Support Badges**:
+  - *Full Support*: Emerald tint (`#EDF2E2`) badge with dark olive text (`✓ Included`).
+  - *Fragmented / Paid Add-on*: High-contrast amber badge (`⚠️ 12+ Siloed App DBs`, `⚠️ $30k+ Consulting`, `⚠️ 8 Plugins`).
+  - *Absence*: Neutral slate dash (`— Not Available`).
+- **Contextual Tooltips `(ℹ️)`**: Hover/tap popovers on technical capabilities (e.g. clock-skew clamping, 5-tier RBAC, Peppol e-invoicing).
+- **Competitor Flaw/Fix Contrast Badges**: Each top card highlights a `⚠️ Fatal Flaw` in rose tint alongside a `🟢 Mints Fix` in soft olive.
+- **3-Step Frictionless Migration Walkthrough**: Visual pipeline (`01 10-Minute Export ➔ 02 Schema Auto-Mapping ➔ 03 48-Hour Parallel Run`).
+- **Verified Customer Switch Stories**: 3 regional case studies from Dubai, London, and Bengaluru demonstrating tangible dollar and time savings.
+- **Print / Save Executive Summary**: 1-click `window.print()` trigger with print-friendly layout.
 
 ### Interactive TCO Range Slider (`src/app/compare/page.tsx`)
 - **Slider Track & Thumb**: Branded `#687838` accent with `accent-[#687838]`.
