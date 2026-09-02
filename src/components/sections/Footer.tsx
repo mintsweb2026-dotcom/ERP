@@ -57,9 +57,22 @@ export default function Footer() {
             </div>
             {/* Social Icons (Min 44x44px tap targets, flex-wrap) */}
             <div className="flex flex-wrap items-center gap-2.5">
+              {/* X / Twitter */}
+              <a
+                href="https://x.com/MintsGlobal"
+                className="w-11 h-11 rounded-xl bg-white border border-[#E4E4E4] flex items-center justify-center text-[#859177] hover:text-[#687838] hover:border-[#687838] transition-colors shadow-2xs"
+                aria-label="X (formerly Twitter)"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <path d="M14.25 2.25H16.5L11.58 7.875L17.37 15.75H12.84L9.29 11.05L5.23 15.75H2.98L8.24 9.735L2.73 2.25H7.38L10.59 6.54L14.25 2.25ZM13.46 14.41H14.71L6.68 3.51H5.34L13.46 14.41Z" fill="currentColor" />
+                </svg>
+              </a>
+
               {/* LinkedIn */}
               <a
-                href="https://www.linkedin.com/company/mints-dubai"
+                href="https://www.linkedin.com/company/110910285/"
                 className="w-11 h-11 rounded-xl bg-white border border-[#E4E4E4] flex items-center justify-center text-[#859177] hover:text-[#687838] hover:border-[#687838] transition-colors shadow-2xs"
                 aria-label="LinkedIn"
                 target="_blank"
@@ -73,6 +86,23 @@ export default function Footer() {
                   <path d="M10 8V12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                 </svg>
               </a>
+
+              {/* Discord Community */}
+              <a
+                href="https://discord.gg/Jn6Ej7PdgD"
+                className="w-11 h-11 rounded-xl bg-white border border-[#E4E4E4] flex items-center justify-center text-[#859177] hover:text-[#687838] hover:border-[#687838] transition-colors shadow-2xs"
+                aria-label="Discord Community"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <path
+                    d="M14.5 4.3c-1-.5-2.1-.8-3.3-1-.1.2-.3.5-.4.8-1.2-.2-2.5-.2-3.7 0-.1-.3-.3-.6-.4-.8-1.2.2-2.3.5-3.3 1C1.9 7.4 1.3 10.4 1.6 13.4c1.3.9 2.6 1.5 3.9 1.9.3-.4.6-.9.8-1.4-.5-.2-.9-.4-1.3-.7.1-.1.2-.2.3-.2 2.5 1.2 5.3 1.2 7.8 0 .1.1.2.1.3.2-.4.3-.8.5-1.3.7.2.5.5 1 .8 1.4 1.3-.4 2.6-1 3.9-1.9.4-3.5-.5-6.5-2.3-9.1zM6.6 11.5c-.7 0-1.3-.7-1.3-1.5s.6-1.5 1.3-1.5 1.3.7 1.3 1.5-.6 1.5-1.3 1.5zm4.8 0c-.7 0-1.3-.7-1.3-1.5s.6-1.5 1.3-1.5 1.3.7 1.3 1.5-.6 1.5-1.3 1.5z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </a>
+
               {/* Instagram */}
               <a
                 href="https://www.instagram.com/mints.global/"
@@ -85,18 +115,6 @@ export default function Footer() {
                   <rect x="2" y="2" width="14" height="14" rx="4" stroke="currentColor" strokeWidth="1.5" />
                   <circle cx="9" cy="9" r="3.5" stroke="currentColor" strokeWidth="1.5" />
                   <circle cx="13.5" cy="4.5" r="1" fill="currentColor" />
-                </svg>
-              </a>
-              {/* X / Twitter */}
-              <a
-                href="https://twitter.com/mintsglobal"
-                className="w-11 h-11 rounded-xl bg-white border border-[#E4E4E4] flex items-center justify-center text-[#859177] hover:text-[#687838] hover:border-[#687838] transition-colors shadow-2xs"
-                aria-label="X / Twitter"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                  <path d="M14.25 2.25H16.5L11.58 7.875L17.37 15.75H12.84L9.29 11.05L5.23 15.75H2.98L8.24 9.735L2.73 2.25H7.38L10.59 6.54L14.25 2.25ZM13.46 14.41H14.71L6.68 3.51H5.34L13.46 14.41Z" fill="currentColor" />
                 </svg>
               </a>
             </div>

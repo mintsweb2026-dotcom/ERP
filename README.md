@@ -145,6 +145,10 @@ Mints Global ERP
 - **Official Website**: [https://mintsglobal.ae](https://mintsglobal.ae)  
 - **Product Portal**: [https://erp.mintsglobal.ae](https://erp.mintsglobal.ae)  
 - **Corporate Inquiries**: `info@mintsglobal.ae`  
+- **X (Twitter)**: [https://x.com/MintsGlobal](https://x.com/MintsGlobal)  
+- **LinkedIn**: [https://www.linkedin.com/company/110910285/](https://www.linkedin.com/company/110910285/)  
+- **Discord Community**: [https://discord.gg/Jn6Ej7PdgD](https://discord.gg/Jn6Ej7PdgD)  
+- **Instagram**: [https://www.instagram.com/mints.global/](https://www.instagram.com/mints.global/)  
 - **Tagline**: *"SMARTER OPERATIONS. TOGETHER."*
 
 ---
