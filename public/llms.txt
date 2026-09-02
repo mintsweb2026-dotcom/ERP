@@ -1,0 +1,39 @@
+# llms.txt
+
+# Mints Global ERP
+
+> One command center for HR, CRM, Projects, Finance, and Automated Workflows — built by Mints Global, operating across the UAE, United Kingdom, India, and Europe.
+
+## Product & Regional Editions
+- [Mints Global ERP Overview](https://erp.mintsglobal.ae): Full product showcase, modules, and dual-theme preview
+- [Dedicated Pricing Hub](https://erp.mintsglobal.ae/pricing): Free, Starter, Professional, and Enterprise tiers — multi-currency billing in USD, AED, GBP, INR, and EUR
+- [Product Changelog](https://erp.mintsglobal.ae/changelog): Continuous release notes from v1.2 to v1.6
+- [Trust & Security Center](https://erp.mintsglobal.ae/security): ISO 27001 alignment, 5-tier RBAC ladder, subprocessor directory, and 99.95% Enterprise SLA
+- [Accessibility Statement](https://erp.mintsglobal.ae/accessibility): WCAG 2.1 AA / EN 301 549 conformance and contrast validation matrix
+- [Mints ERP for the UK](https://erp.mintsglobal.ae/uk): GDPR and Making Tax Digital (MTD) compliant invoicing
+- [Mints ERP for India](https://erp.mintsglobal.ae/india): GST-compliant invoicing (CGST, SGST, IGST) and DPDP Act 2023 alignment
+- [Mints ERP for Europe](https://erp.mintsglobal.ae/eu): EU GDPR data sovereignty and EN 16931 e-invoicing readiness
+
+## Competitor Comparisons
+- [Comparison Benchmark Hub](https://erp.mintsglobal.ae/compare): Chatwoot-style comparison portal and interactive TCO calculator
+- [vs Zoho One](https://erp.mintsglobal.ae/compare/vs-zoho): Single unified Firestore database vs 12+ fragmented Deluge-scripted apps
+- [vs SAP Business One](https://erp.mintsglobal.ae/compare/vs-sap): 15-minute cloud setup vs $30k+ implementation partner fees
+- [vs TallyPrime](https://erp.mintsglobal.ae/compare/vs-tally): Cloud-native collaboration, CRM pipelines, and shift telemetry vs desktop .EXE files
+- [vs Sage & Xero](https://erp.mintsglobal.ae/compare/vs-sage): Native operational command center vs 5 to 8 expensive marketplace add-ons
+- [vs Monday.com & Asana](https://erp.mintsglobal.ae/compare/vs-monday): Complete business operations, statutory tax billing, and attendance clocks vs task lists
+
+## Documentation & Manuals
+- [Help Center Knowledge Base](https://erp.mintsglobal.ae/help-center): Interactive documentation hub with Cmd/Ctrl+K live search
+- [Frequently Asked Questions (FAQ)](https://erp.mintsglobal.ae/help-center/faq): 35+ verified operational and technical answers
+- [Employee Handbook & Policies](https://erp.mintsglobal.ae/help-center/handbook): Workplace tenets, working hours, and leave accruals
+- [Product Architecture & Specs](https://erp.mintsglobal.ae/help-center/product-doc): Google Cloud serverless architecture, 5-tier RBAC, and 18-module catalog
+- [Operational User Manual](https://erp.mintsglobal.ae/help-center/user-manual): Detailed procedural manual for HR, CRM, Gantt milestones, and invoicing
+
+## Legal & Governance
+- [Terms of Service](https://erp.mintsglobal.ae/terms): Master SaaS subscription agreement and Dubai, UAE jurisdiction
+- [Privacy Policy](https://erp.mintsglobal.ae/privacy): UAE PDPL, UK GDPR, EU GDPR, and India DPDP 2023 compliance with subprocessors disclosure
+- [Proprietary License](https://erp.mintsglobal.ae/license): Proprietary non-open-source enterprise software terms and trade secrets
+- [Security Vulnerability Disclosure](https://erp.mintsglobal.ae/.well-known/security.txt): RFC 9116 responsible disclosure program
+
+## Company
+- [About Mints Global](https://mintsglobal.ae): Technology and enterprise software firm headquartered at Office #315, 3rd Floor, Bank Street Building, Bur Dubai, Dubai, UAE — operating across UAE, UK, India, and Europe. Contact: info@mintsglobal.ae.
