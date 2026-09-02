@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/images/mints_erp_flat.png" alt="Mints Global ERP Logo" width="400" />
+  <img src="public/images/mints_erp_banner.png" alt="Mints Global ERP Banner — Smarter Operations. Together." width="720" />
 </p>
 
 <h3 align="center">
